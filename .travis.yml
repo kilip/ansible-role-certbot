@@ -1,5 +1,5 @@
 ---
-
+dist: bionic
 language: python
 services: docker
 
@@ -11,12 +11,10 @@ env:
   global:
   - ROLE_NAME: certbot
   matrix:
-  - MOLECULE_DISTRO: centos:8
   - MOLECULE_DISTRO: centos:7
-  - MOLECULE_DISTRO: centos:6
   - MOLECULE_DISTRO: ubuntu:bionic
   - MOLECULE_DISTRO: ubuntu:xenial
-  - MOLECULE_DISTRO: debian:10
+  - MOLECULE_DISTRO: Debian:10
 
 install:
   # Install test dependencies.
@@ -28,5 +26,4 @@ before_script:
 - cd $ROLE_NAME
 
 script:
-  # Run tests.
   - molecule test

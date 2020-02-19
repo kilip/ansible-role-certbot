@@ -11,8 +11,7 @@ lint:
 platforms:
 - name: instance
   image: "${MOLECULE_DISTRO:-centos:7}"
-  volumes:
-  - ./temp-apt:/var/cache/apt/archives
+
 provisioner:
   name: ansible
   lint:

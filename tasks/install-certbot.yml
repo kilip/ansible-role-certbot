@@ -1,4 +1,5 @@
-- include: preinstall/install-{{ ansible_os_family }}.yml
+- include: "preinstall/install-RedHat.yml"
+  when: ansible_os_family == 'RedHat'
 
 - name: Install certbot
   package: "name=certbot state=present"

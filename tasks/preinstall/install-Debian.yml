@@ -1,9 +1,5 @@
 ---
-- name: Add certbot apt repository
+- name: Add repository for distro
   apt_repository:
     repo: ppa:certbot/certbot
     state: present
-
-- name: Update apt
-  apt:
-    update_cache: yes

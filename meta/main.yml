@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: Anthonius Munthi
+  role_name: certbot
   description: Role to create certbot certificate
   license: MIT
   min_ansible_version: 1.2

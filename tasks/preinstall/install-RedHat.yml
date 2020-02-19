@@ -11,5 +11,7 @@
 - name: Install epel-release
   package: name=epel-release,yum-utils state=present
 
-- name: Configure yum to use certbot repository
-  command: yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional
+#- name: Configure yum to use certbot repository
+#  rhsm_repository:
+#    name: rhel-7-server-extras-rpms
+#    state: enabled

@@ -4,7 +4,8 @@
     - python2-certbot-dns-cloudflare
   when: ansible_os_family == 'RedHat'
 
-- name: Set cloudflare plugin to use in Debian
+# @todo fix dns-cloudflare requirements
+- name: Set cloudflare plugin to use in old Debian family
   set_fact:
     certbot_dns_plugin_package:
     - python3-certbot-dns-cloudflare
@@ -25,8 +26,3 @@
         + [ '--dns-cloudflare-progation-seconds 5' ]
         + [ '--dns-cloudflare-credentials '+ cloudflare_credentials_path ]
       }}
-    #certbot_create_command: >-
-    #  {{ certbot_script }} certonly
-    #  --dns-cloudflare --dns-cloudflare-propagation-seconds 10
-    #  --dns-cloudflare-credentials /etc/certbot-dns-cloudflare-credentials.ini
-    #  -m {{ certbot_email }} -d {{ certbot_domains | join(',') }}
