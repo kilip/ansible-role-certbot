@@ -1,0 +1,32 @@
+- name: Set cloudflare plugin to use in RedHat Family
+  set_fact:
+    certbot_dns_plugin_package:
+    - python2-certbot-dns-cloudflare
+  when: ansible_os_family == 'RedHat'
+
+- name: Set cloudflare plugin to use in Debian
+  set_fact:
+    certbot_dns_plugin_package:
+    - python3-certbot-dns-cloudflare
+  when: ansible_os_family == 'Debian'
+
+- name: Template a file to /etc/certbot-dns-cloudflare-credentials.ini
+  template:
+    src: template/cloudflare-credentials.ini
+    dest: cloudflare_credentials_path
+    mode: '0644'
+
+- name: Set certbot certificate script
+  set_fact:
+    certbot_command_options: >-
+      {{
+        certbot_command_options
+        + [ '--dns-cloudflare' ]
+        + [ '--dns-cloudflare-progation-seconds 5' ]
+        + [ '--dns-cloudflare-credentials '+ cloudflare_credentials_path ]
+      }}
+    #certbot_create_command: >-
+    #  {{ certbot_script }} certonly
+    #  --dns-cloudflare --dns-cloudflare-propagation-seconds 10
+    #  --dns-cloudflare-credentials /etc/certbot-dns-cloudflare-credentials.ini
+    #  -m {{ certbot_email }} -d {{ certbot_domains | join(',') }}

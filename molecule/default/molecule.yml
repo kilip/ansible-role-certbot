@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+lint:
+  name: yamllint
+
+platforms:
+- name: instance
+  image: "${MOLECULE_DISTRO:-centos:7}"
+  volumes:
+  - ./temp-apt:/var/cache/apt/archives
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+
+verifier:
+  name: testinfra
+  lint:
+    name: flake8

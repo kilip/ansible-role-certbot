@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  roles:
+  - role: certbot
+  vars:
+    certbot_test: true
+    certbot_email: janedoe@gmail.com
+    certbot_domains:
+    - home.itstoni.com
+    certbot_use_plugin: true
+    certbot_dns_plugin: cloudflare
+    certbot_dns_cloudflare_email: some-email
+    certbot_dns_cloudflare_api_key: some-api-key
