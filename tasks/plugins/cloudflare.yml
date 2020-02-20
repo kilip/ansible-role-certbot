@@ -11,10 +11,12 @@
     - python3-certbot-dns-cloudflare
   when: ansible_os_family == 'Debian'
 
-- name: Template a file to /etc/certbot-dns-cloudflare-credentials.ini
+- name: "Template a file to {{ cloudflare_credentials_path }}"
   template:
     src: template/cloudflare-credentials.ini
-    dest: cloudflare_credentials_path
+    dest: "{{ cloudflare_credentials_path }}"
+    owner: root
+    group: root
     mode: '0644'
 
 - name: Set certbot certificate script
@@ -23,6 +25,5 @@
       {{
         certbot_command_options
         + [ '--dns-cloudflare' ]
-        + [ '--dns-cloudflare-progation-seconds 5' ]
         + [ '--dns-cloudflare-credentials '+ cloudflare_credentials_path ]
       }}
