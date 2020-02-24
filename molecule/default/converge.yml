@@ -2,6 +2,10 @@
 - name: Converge
   hosts: all
   become: true
+  environment:
+    http_proxy: "{{ lookup('env', 'http_proxy') }}"
+    https_proxy: "{{ lookup('env', 'https_proxy') }}"
+    no_proxy: "{{ lookup('env', 'no_proxy') }}"
   pre_tasks:
   - name: package ~> update cache
     package:

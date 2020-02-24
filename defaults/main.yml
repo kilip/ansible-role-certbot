@@ -18,3 +18,5 @@ certbot_script: "certbot"
 certbot_command_options:
 - --non-interactive
 - --agree-tos
+
+certbot_pip_executable: pip3

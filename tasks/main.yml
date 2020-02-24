@@ -16,13 +16,13 @@
   when: certbot_use_plugin
 
 - name: Install certbot dns plugin
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ certbot_dns_plugin_package }}"
-  when: certbot_use_plugin
+  pip:
+    name: certbot-dns-cloudflare
+    executable: "{{ certbot_pip_executable }}"
 
 - name: Debug certbot command options
   debug: var=certbot_command_options
 
 - import_tasks: create-cert.yml
+
+# @todo: add cron job to renew certificate

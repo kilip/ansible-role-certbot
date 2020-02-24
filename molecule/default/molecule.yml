@@ -11,12 +11,16 @@ lint: |
 
 platforms:
 - name: instance
-  image: "kilip/molecule-${MOLECULE_DISTRO:-centos:7}"
+  image: kilip/molecule-${MOLECULE_DISTRO:-'centos:8'}
   command: ${MOLECULE_DOCKER_COMMAND:-""}
   privileged: true
   pre_build_image: true
-  #volumes:
-  #- /sys/fs/cgroup:/sys/fs/cgroup:ro
+  volumes:
+  - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  env:
+    http_proxy: "${http_proxy}"
+    https_proxy: "${https_proxy}"
+    no_proxy: "${no_proxy}"
 
 provisioner:
   name: ansible

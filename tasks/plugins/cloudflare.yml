@@ -1,16 +1,3 @@
-- name: Set cloudflare plugin to use in RedHat Family
-  set_fact:
-    certbot_dns_plugin_package:
-    - python2-certbot-dns-cloudflare
-  when: ansible_os_family == 'RedHat'
-
-# @todo fix dns-cloudflare requirements
-- name: Set cloudflare plugin to use in old Debian family
-  set_fact:
-    certbot_dns_plugin_package:
-    - python3-certbot-dns-cloudflare
-  when: ansible_os_family == 'Debian'
-
 - name: "Template a file to {{ cloudflare_credentials_path }}"
   template:
     src: template/cloudflare-credentials.ini
