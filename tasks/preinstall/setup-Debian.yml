@@ -1,8 +1,9 @@
 ---
-- name: Add repository for distro
+- name: apt_repository ~> added for certbot
   apt_repository:
     repo: ppa:certbot/certbot
     state: present
+  when: ansible_distribution == 'Ubuntu'
 
 - name: setup pip for old debian version
   set_fact:

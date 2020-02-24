@@ -8,7 +8,7 @@
     no_proxy: "{{ lookup('env', 'no_proxy') }}"
   pre_tasks:
   - name: package ~> update cache
-    package:
+    apt:
       update_cache: yes
       cache_valid_time: 600
     when: ansible_os_family == 'Debian'
