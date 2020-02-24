@@ -15,11 +15,6 @@
   include: "plugins/{{ certbot_dns_plugin }}.yml"
   when: certbot_use_plugin
 
-- name: Install certbot dns plugin
-  pip:
-    name: certbot-dns-cloudflare
-    executable: "{{ certbot_pip_executable }}"
-
 - name: Debug certbot command options
   debug: var=certbot_command_options
 
