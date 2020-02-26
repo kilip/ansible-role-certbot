@@ -15,9 +15,6 @@
   include: "plugins/{{ certbot_dns_plugin }}.yml"
   when: certbot_use_plugin
 
-- name: Debug certbot command options
-  debug: var=certbot_command_options
-
 - import_tasks: create-cert.yml
 
 # @todo: add cron job to renew certificate

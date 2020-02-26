@@ -12,9 +12,6 @@
       --email {{ certbot_email }}
       -d {{ certbot_domains | join(', ') }}
 
-- debug: var=certbot_create_command
-- debug: var=letsencrypt_cert
-
 - name: Generate new certificate if one doesn't exist.
   command: "{{ certbot_create_command }}"
   when:

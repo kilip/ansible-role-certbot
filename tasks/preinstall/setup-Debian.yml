@@ -1,14 +1,18 @@
 ---
-- name: apt_repository ~> added for certbot
+- name: apt_repository ~> add ubuntu certbot ppa
   apt_repository:
     repo: ppa:certbot/certbot
     state: present
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version != '20'
 
-- name: setup pip for old debian version
-  set_fact:
-    certbot_pip_executable: pip
-  when:
-  - ansible_distribution_major_version == '7'
-  - ansible_distribution_major_version == '16'
-  - ansible_distribution_major_version == '9'
+- name: apt_repository ~> add stretch backports
+  apt_repository:
+    repo: deb http://deb.debian.org/debian stretch-backports main
+    state: present
+  when: ansible_distribution_major_version == '9'
+
+- name: apt_repository ~> add buster-backports
+  apt_repository:
+    repo: deb http://deb.debian.org/debian buster-backports main
+    state: present
+  when: ansible_distribution_major_version == '10'
