@@ -1,19 +1,24 @@
 ---
 - name: Check if certificate already exists.
   stat:
-    path: /etc/letsencrypt/live/{{ certbot_domains | first | replace('*.', '') }}/cert.pem
-  register: letsencrypt_cert
+    path: /etc/letsencrypt/live/{{ item | replace('*.', '') }}/cert.pem
+  register: _certbot_stats
+  loop: "{{ certbot_domains }}"
 
+- name: fact ~> add --dry-run to command options
+  set_fact:
+    certbot_command_options: >-
+      {{
+        certbot_command_options + ['--dry-run']
+      }}
 
 - name: Generate certbot create command
   set_fact:
     certbot_create_command: >-
       {{ certbot_script }} {{ certbot_command_options | join(' ') }}
       --email {{ certbot_email }}
-      -d {{ certbot_domains | join(', ') }}
 
-- name: Generate new certificate if one doesn't exist.
-  command: "{{ certbot_create_command }}"
-  when:
-  - not letsencrypt_cert.stat.exists
-  - not certbot_test
+- name: "Generate new certificate if one doesn't exist."
+  command: "{{ certbot_create_command + ' -d ' + item.item }}"
+  when: not item.stat.exists
+  loop: "{{ _certbot_stats.results }}"

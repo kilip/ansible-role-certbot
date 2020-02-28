@@ -2,24 +2,22 @@
 - name: Converge
   hosts: all
   become: true
-  environment:
-    http_proxy: "{{ lookup('env', 'http_proxy') }}"
-    https_proxy: "{{ lookup('env', 'https_proxy') }}"
-    no_proxy: "{{ lookup('env', 'no_proxy') }}"
   pre_tasks:
-  - name: package ~> update cache
-    apt:
-      update_cache: yes
-      cache_valid_time: 600
-    when: ansible_os_family == 'Debian'
-  roles:
-  - role: certbot
+    - name: package ~> update cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+  tasks:
+    - include_role:
+        name: certbot
   vars:
-    certbot_test: true
+    certbot_staging: true
     certbot_email: janedoe@gmail.com
     certbot_domains:
-    - "'*.itstoni.com'"
+    - '*.itstoni.com'
+    - 'io.itstoni.com'
     certbot_use_plugin: true
     certbot_dns_plugin: cloudflare
-    cloudflare_email: some-email
-    cloudflare_api_key: some-api-key
+    cloudflare_email: "{{ lookup('env', 'CLOUDFLARE_EMAIL') }}"
+    cloudflare_api_key: "{{ lookup('env', 'CLOUDFLARE_API_KEY') }}"
