@@ -6,11 +6,6 @@
   set_fact:
     certbot_script: certbot certonly
 
-- name: Set certbot script on staging environment
-  set_fact:
-    certbot_command_options: "{{ certbot_command_options + [ '--staging' ] + [ '--dry-run' ] }}"
-  when: certbot_staging
-
 - name: Load dns plugin
   include: "plugins/{{ certbot_dns_plugin }}.yml"
   when: certbot_use_plugin

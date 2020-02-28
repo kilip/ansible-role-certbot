@@ -13,6 +13,7 @@
         name: certbot
   vars:
     certbot_staging: true
+    certbot_test: true
     certbot_email: janedoe@gmail.com
     certbot_domains:
     - '*.itstoni.com'
