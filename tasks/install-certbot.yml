@@ -1,0 +1,10 @@
+- include: "preinstall/setup-{{ ansible_os_family }}.yml"
+
+- name: Install certbot
+  package:
+    name: certbot
+    state: present
+
+- name: Set certbot script variable.
+  set_fact:
+    certbot_script: "certbot"

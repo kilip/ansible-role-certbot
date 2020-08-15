@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Anthonius Munthi
+  role_name: certbot
+  description: Role to create certbot certificate
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: CentOS
+    versions:
+    - 7
+  - name: Ubuntu
+    versions:
+    - 18.04
+
+  galaxy_tags:
+  - certbot

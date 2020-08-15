@@ -1,0 +1,28 @@
+- name: "Template a file to {{ cloudflare_credentials_path }}"
+  template:
+    src: template/cloudflare-credentials.ini
+    dest: "{{ cloudflare_credentials_path }}"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set certbot certificate script
+  set_fact:
+    certbot_command_options: >-
+      {{
+        certbot_command_options
+        + [ '--dns-cloudflare' ]
+        + [ '--dns-cloudflare-credentials '+ cloudflare_credentials_path ]
+      }}
+
+- name: pip ~> install cloudflare plugin
+  pip:
+    name: certbot-dns-cloudflare
+    executable: "{{ certbot_pip_executable }}"
+  when: ansible_os_family == 'RedHat'
+
+- name: package ~> install cloudflare plugin
+  package:
+    name: python3-certbot-dns-cloudflare
+    state: present
+  when: ansible_os_family == 'Debian'

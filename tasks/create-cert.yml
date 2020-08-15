@@ -1,0 +1,24 @@
+---
+- name: Check if certificate already exists.
+  stat:
+    path: /etc/letsencrypt/live/{{ item | replace('*.', '') }}/cert.pem
+  register: _certbot_stats
+  loop: "{{ certbot_domains }}"
+
+- name: Set certbot script on staging environment
+  set_fact:
+    certbot_command_options: "{{ certbot_command_options + [ '--dry-run' ] }}"
+  when: certbot_staging
+
+- name: Generate certbot create command
+  set_fact:
+    certbot_create_command: >-
+      {{ certbot_script }} {{ certbot_command_options | join(' ') }}
+      --email {{ certbot_email }}
+
+- name: "Generate new certificate if one doesn't exist."
+  command: "{{ certbot_create_command + ' -d ' + item.item }}"
+  when:
+    - not item.stat.exists
+    - not certbot_test
+  loop: "{{ _certbot_stats.results }}"

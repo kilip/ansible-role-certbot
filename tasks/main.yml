@@ -1,0 +1,15 @@
+---
+# tasks file for certbot
+- import_tasks: install-certbot.yml
+
+- name: Set certbot script
+  set_fact:
+    certbot_script: certbot certonly
+
+- name: Load dns plugin
+  include: "plugins/{{ certbot_dns_plugin }}.yml"
+  when: certbot_use_plugin
+
+- import_tasks: create-cert.yml
+
+# @todo: add cron job to renew certificate

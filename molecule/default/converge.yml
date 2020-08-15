@@ -1,0 +1,24 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: package ~> update cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+  tasks:
+    - include_role:
+        name: certbot
+  vars:
+    certbot_staging: true
+    certbot_test: true
+    certbot_email: janedoe@gmail.com
+    certbot_domains:
+    - '*.itstoni.com'
+    - 'io.itstoni.com'
+    certbot_use_plugin: true
+    certbot_dns_plugin: cloudflare
+    cloudflare_email: "{{ lookup('env', 'CLOUDFLARE_EMAIL') }}"
+    cloudflare_api_key: "{{ lookup('env', 'CLOUDFLARE_API_KEY') }}"

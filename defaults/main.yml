@@ -1,0 +1,22 @@
+---
+# defaults file for certbot
+certbot_test: false
+certbot_staging: false
+certbot_use_plugin: false
+
+certbot_email: null
+certbot_domains: null
+
+certbot_dns_plugin:
+
+# cloudflare config defaults
+cloudflare_email: null
+cloudflare_api_key: null
+cloudflare_credentials_path: /etc/certbot-dns-cloudflare-credentials.ini
+
+certbot_script: "certbot"
+certbot_command_options:
+  - --non-interactive
+  - --agree-tos
+
+certbot_pip_executable: pip3
